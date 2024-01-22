@@ -4,11 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\DTO\LoginDTO;
 use App\DTO\RegisterDTO;
+use App\DTO\VerifyDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ForgotPassword;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\SetPasswordRequest;
+use App\Http\Requests\VerifyRequest;
 use App\Http\Resources\UserResource;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Traits\ApiResponse;
@@ -29,7 +31,12 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request) :JsonResponse
     {
-        $user = $this->repository->register(RegisterDTO::fromRequest($request));
+        return $this->success($this->repository->register(RegisterDTO::fromRequest($request)));
+    }
+
+    public function login(LoginRequest $request) :JsonResponse
+    {
+        $user = $this->repository->login(LoginDTO::fromRequest($request));
 
         return response()->json([
             'user' => UserResource::make($user),
@@ -37,10 +44,9 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(LoginRequest $request) :JsonResponse
+    public function verify(VerifyRequest $request)
     {
-        $user = $this->repository->login(LoginDTO::fromRequest($request));
-
+        $user = $this->repository->verify(VerifyDTO::fromRequest($request));
         return response()->json([
             'user' => UserResource::make($user),
             'token' => $user->createToken('Api Token')->plainTextToken
