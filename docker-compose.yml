@@ -9,10 +9,11 @@ services:
             - "80:80"
         depends_on:
             - php
-        container_name: graphql_nginx
+        container_name: nginx
     php:
         build:
             context: .
+            dockerfile: _docker/app/Dockerfile
             target: php
             args:
                 - APP_ENV=${APP_ENV}
@@ -37,7 +38,7 @@ services:
             POSTGRES_PASSWORD: root
         ports:
             - 8101:5432
-        container_name: database
+        container_name: postgre
     redis:
         image: redis:alpine
         command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD}"
