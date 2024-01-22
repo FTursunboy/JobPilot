@@ -7,7 +7,7 @@ services:
             - ./:/var/www
             - ./_docker/nginx/conf.d/:/etc/nginx/conf.d
         ports:
-            - "8080:80"
+            - "8090:80"
         depends_on:
             - php
         container_name: nginx

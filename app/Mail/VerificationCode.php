@@ -40,7 +40,7 @@ class VerificationCode extends Mailable
     {
         return new Content(
             view: 'emails.auth.register',
-            with: ['code' => $this->code]
+            markdown: ['code' => $this->code]
         );
     }
 

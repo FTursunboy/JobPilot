@@ -127,9 +127,8 @@ return [
         'theme' => 'default',
 
         'paths' => [
-            resource_path('views/emails/auth/register.blade.php'),
+            resource_path('views/vendor/mail'),
         ],
-
     ],
 
 ];
