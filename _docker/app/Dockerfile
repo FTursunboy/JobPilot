@@ -1,30 +1,27 @@
-FROM php:8.3-fpm as php
+FROM php:8.2-fpm
 
-RUN apt-get update && \
-    apt-get install -y \
+RUN apt-get update && apt-get install -y \
       apt-utils \
       libpq-dev \
       libpng-dev \
       libzip-dev \
-      zip \
-      unzip \
+      zip unzip \
       git && \
-    docker-php-ext-install pdo_mysql && \
-    docker-php-ext-install bcmath && \
-    docker-php-ext-install gd && \
-    docker-php-ext-install zip && \
-    pecl install -o -f redis && \
-    rm -rf /tmp/pear && \
-    docker-php-ext-enable redis && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+      docker-php-ext-install pdo_mysql && \
+      docker-php-ext-install bcmath && \
+      docker-php-ext-install gd && \
+      docker-php-ext-install zip && \
+      apt-get clean && \
+      rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+COPY ./_docker/app/php.ini /usr/local/etc/php/conf.d/php.ini
+
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /var/www
 
-COPY . .
-
-COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
-COPY entrypoint.sh .
 
 
-ENTRYPOINT ["entrypoint.sh"]
+

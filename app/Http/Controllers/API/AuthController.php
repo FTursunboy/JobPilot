@@ -5,16 +5,21 @@ namespace App\Http\Controllers\API;
 use App\DTO\LoginDTO;
 use App\DTO\RegisterDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ForgotPassword;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\SetPasswordRequest;
+use App\Http\Resources\UserResource;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Traits\ApiResponse;
 use Dotenv\Repository\RepositoryInterface;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
     use ApiResponse;
     private AuthRepositoryInterface $repository;
+
 
     public function __construct(AuthRepositoryInterface $repository)
     {
@@ -22,13 +27,29 @@ class AuthController extends Controller
     }
 
 
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request) :JsonResponse
     {
-        $this->repository->register(RegisterDTO::fromRequest($request));
+        $user = $this->repository->register(RegisterDTO::fromRequest($request));
+
+        return response()->json([
+            'user' => UserResource::make($user),
+            'token' => $user->createToken('Api Token')->plaintextToken
+        ]);
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request) :JsonResponse
     {
         return $this->success($this->repository->login(LoginDTO::fromRequest($request)));
     }
+
+    public function forgotPassword(ForgotPassword $request) :JsonResponse
+    {
+        return $this->success($this->success($this->repository->forgotPassword($request->email)));
+    }
+
+    public function setPassword(SetPasswordRequest $request)
+    {
+        return $this->success($this->success($this->repository->forgotPassword($request->password)));
+    }
+
 }

@@ -1,4 +1,5 @@
-version: '3.8'
+version: '3'
+
 services:
     nginx:
         image: "nginx:stable-alpine"
@@ -6,7 +7,7 @@ services:
             - ./:/var/www
             - ./_docker/nginx/conf.d/:/etc/nginx/conf.d
         ports:
-            - "80:80"
+            - "8080:80"
         depends_on:
             - php
         container_name: nginx
@@ -14,35 +15,20 @@ services:
         build:
             context: .
             dockerfile: _docker/app/Dockerfile
-            target: php
-            args:
-                - APP_ENV=${APP_ENV}
-        environment:
-            - APP_ENV=${APP_ENV}
-            - CONTAINER_ROLE=app
-        working_dir: /var/www
-        ports:
-            -   8000:8000
+        volumes:
+            - ./:/var/www
         depends_on:
-            -   database
-            -   redis
+            -   db
         container_name: php
-    database:
-        image: postgres:latest
+    db:
+        image: mysql:8.0
         restart: always
         volumes:
-            - ./tmp/db:/var/lib/postgresql/data
+            -   ./tmp/db:/var/lib/mysql
         environment:
-            POSTGRES_DB: jobpilot
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: root
+            MYSQL_DATABASE: testTask
+            MYSQL_ROOT_PASSWORD: root
         ports:
-            - 8101:5432
-        container_name: postgre
-    redis:
-        image: redis:alpine
-        command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD}"
-        ports:
-            -   6379:6379
-        container_name: redis
-
+            -   1909:3306
+        command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+        container_name: db

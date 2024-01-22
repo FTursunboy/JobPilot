@@ -6,15 +6,16 @@ use App\Enums\UserTypes;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ForgotPassword extends FormRequest
+class SetPasswordRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'email' => [
-                'email',
+            'password' => [
                 'required',
-                'exists::users,email'
+                'min:6',
+                'max:20',
+                'confirmed'
             ]
 
         ];
