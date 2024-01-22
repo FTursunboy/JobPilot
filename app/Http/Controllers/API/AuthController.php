@@ -33,13 +33,18 @@ class AuthController extends Controller
 
         return response()->json([
             'user' => UserResource::make($user),
-            'token' => $user->createToken('Api Token')->plaintextToken
+            'token' => $user->createToken('Api Token')->plainTextToken
         ]);
     }
 
     public function login(LoginRequest $request) :JsonResponse
     {
-        return $this->success($this->repository->login(LoginDTO::fromRequest($request)));
+        $user = $this->repository->login(LoginDTO::fromRequest($request));
+
+        return response()->json([
+            'user' => UserResource::make($user),
+            'token' => $user->createToken('Api Token')->plainTextToken
+        ]);
     }
 
     public function forgotPassword(ForgotPassword $request) :JsonResponse

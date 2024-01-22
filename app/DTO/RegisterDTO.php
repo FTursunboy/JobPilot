@@ -10,12 +10,12 @@ class RegisterDTO {
 
     public string $surname;
 
-    public UserTypes $type;
+    public string $type;
 
     public string $email;
 
     public string $password;
-    public function __construct(string $name, string $surname, UserTypes $type, string $email, string $password)
+    public function __construct(string $name, string $surname,  string $type,  string $email, string $password)
     {
         $this->name = $name;
         $this->surname = $surname;
@@ -29,9 +29,9 @@ class RegisterDTO {
         return new static(
             $request->get('name'),
             $request->get('surname'),
-            $request->get('password'),
+            $request->get('type'),
             $request->get('email'),
-            $request->get('type')
+            $request->get('password'),
         );
     }
 }
