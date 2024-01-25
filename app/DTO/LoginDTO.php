@@ -21,8 +21,8 @@ class LoginDTO {
 
     public static function fromRequest(LoginRequest $request) :LoginDTO {
         return new static(
-            $request->get('name'),
-            $request->get('surname')
+            $request->get('email'),
+            $request->get('password')
         );
     }
 }

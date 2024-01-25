@@ -44,8 +44,9 @@ class AuthController extends Controller
         ]);
     }
 
-    public function verify(VerifyRequest $request)
+    public function confirm(VerifyRequest $request)
     {
+
         $user = $this->repository->verify(VerifyDTO::fromRequest($request));
         return response()->json([
             'user' => UserResource::make($user),
@@ -55,12 +56,12 @@ class AuthController extends Controller
 
     public function forgotPassword(ForgotPassword $request) :JsonResponse
     {
-        return $this->success($this->success($this->repository->forgotPassword($request->email)));
+        return $this->success($this->repository->forgotPassword($request->email));
     }
 
     public function setPassword(SetPasswordRequest $request)
     {
-        return $this->success($this->success($this->repository->forgotPassword($request->password)));
+        return $this->success($this->repository->setPassword($request->password));
     }
 
 }

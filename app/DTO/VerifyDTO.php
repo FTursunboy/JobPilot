@@ -5,6 +5,7 @@ namespace App\DTO;
 use App\Enums\UserTypes;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\VerifyRequest;
 use Illuminate\Auth\Events\Login;
 
 class VerifyDTO {
@@ -20,7 +21,7 @@ class VerifyDTO {
     }
 
 
-    public static function fromRequest(LoginRequest $request) :VerifyDTO {
+    public static function fromRequest(VerifyRequest $request) :VerifyDTO {
         return new static(
             $request->get('email'),
             $request->get('code')

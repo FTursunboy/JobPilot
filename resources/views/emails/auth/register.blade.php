@@ -1,7 +1,6 @@
 @component('mail::message')
-# {{ __('register.hello') }}!
+<h1>Hello</h1>
 
-{{ __('register.enter_the_code') }}:
 
 @component('mail::panel')
 {{ $code }}

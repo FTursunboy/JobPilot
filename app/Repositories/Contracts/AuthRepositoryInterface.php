@@ -16,7 +16,7 @@ interface AuthRepositoryInterface
 
     public function forgotPassword(string $email);
 
-    public function setPassword(array $data);
+    public function setPassword(string $password);
 
 
 }
