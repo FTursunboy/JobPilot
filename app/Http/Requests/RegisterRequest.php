@@ -35,6 +35,12 @@ class RegisterRequest extends FormRequest
                 'min:6',
                 'max:20',
                 'confirmed'
+            ],
+            'username' => [
+                'required',
+                'min:3',
+                'max:20',
+                'unique:users,username'
             ]
 
         ];

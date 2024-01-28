@@ -23,19 +23,18 @@ class StoreCompanyRequest extends FormRequest
     {
         return [
             'name' => ['string', 'required', 'min:3', 'max:30'],
-            'logo' => ['required'],
+            'logo' => ['required', 'image', 'mimes:png,jpg,webp'],
             'organization_type' => ['integer', 'exists:organization_types,id', 'required'],
-            'industry_type' => ['integer', 'exists:industry_type_id', 'required'],
+            'industry_type' => ['integer', 'exists:industry_types,id', 'required'],
             'team_size' => ['integer', 'required', 'max:10000'],
             'year_of_establishment' => ['required', 'date'],
             'web_site' => ['string', 'required'],
             'vision' => [''],
-            'banner_url' => ['required'],
+            'banner_url' => ['required', 'image', 'mimes:png,jpg,webp'],
             'about_us' => ['required'],
             'phone' => ['required', 'unique:companies,phone'],
             'email' => ['required', 'unique:companies,email', 'email'],
             'social_link' => ['array'],
-
         ];
     }
 }

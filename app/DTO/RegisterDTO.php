@@ -15,13 +15,16 @@ class RegisterDTO {
     public string $email;
 
     public string $password;
-    public function __construct(string $name, string $surname,  string $type,  string $email, string $password)
+
+    public string $username;
+    public function __construct(string $name, string $surname,  string $type,  string $email, string $password, string $username)
     {
         $this->name = $name;
         $this->surname = $surname;
         $this->type = $type;
         $this->email = $email;
         $this->password = $password;
+        $this->username = $username;
     }
 
 
@@ -32,6 +35,7 @@ class RegisterDTO {
             $request->get('type'),
             $request->get('email'),
             $request->get('password'),
+            $request->get('username')
         );
     }
 }

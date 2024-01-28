@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('logo_url');
             $table->string('banner_url')->nullable();
             $table->longText('about_us')->nullable();
-            $table->point('coordinates');
+            $table->point('coordinates')->nullable();
             $table->string('phone')->unique();
             $table->string('email')->unique();
             $table->json('social_link');
