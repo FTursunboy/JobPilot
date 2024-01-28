@@ -32,6 +32,7 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request) :JsonResponse
     {
+        dd(RegisterDTO::fromRequest($request));
         return $this->success($this->repository->register(RegisterDTO::fromRequest($request)));
     }
 
