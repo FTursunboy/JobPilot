@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/auth/google/redirect', [AuthController::class, 'redirect']);
+
+    Route::get('/auth/{provider}/callback', [AuthController::class, 'callback']);
+});
+
+

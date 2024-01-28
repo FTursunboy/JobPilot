@@ -16,6 +16,7 @@ use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Traits\ApiResponse;
 use Dotenv\Repository\RepositoryInterface;
 use Illuminate\Http\JsonResponse;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -62,6 +63,20 @@ class AuthController extends Controller
     public function setPassword(SetPasswordRequest $request)
     {
         return $this->success($this->repository->setPassword($request->password));
+    }
+
+    public function redirect() {
+        try {
+            Socialite::driver('google')->redirect();
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    public function callback($provoder) {
+        $user = Socialite::driver($provoder)->user();
+
+        dd($user);
     }
 
 }
